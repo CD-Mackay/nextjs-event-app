@@ -1,5 +1,7 @@
-import Link from 'next/link';
-import classes from './eventListItem.module.css';
+import DateIcon from "../icons/dateIcon";
+import LocationIcon from "../icons/locationIcon";
+import Button from "../ui/button";
+import classes from "./eventListItem.module.css";
 
 function EventListItem({ event }) {
   const { title, image, date, location, id } = event;
@@ -10,23 +12,27 @@ function EventListItem({ event }) {
     year: "numeric",
   });
 
-  const formattedAddress = location.replace(', ', '\n');
+  const formattedAddress = location.replace(", ", "\n");
 
   return (
     <li className={classes.item}>
-      <img src={'/' + image} alt="image" />
+      <img src={"/" + image} alt="image" />
       <div className={classes.content}>
         <div className={classes.summary}>
           <h2>{title}</h2>
           <div className={classes.date}>
+            <DateIcon />
             <time>{renderedDate}</time>
           </div>
-          <div>
+          <div className={classes.address}>
+            <LocationIcon />
             <address>{formattedAddress}</address>
           </div>
         </div>
         <div className={classes.actions}>
-          <Link href={`/events/${id}`}>Explore Event</Link>
+          <Button link={`/events/${id}`}>
+            <span>Explore Events</span>
+          </Button>
         </div>
       </div>
     </li>
