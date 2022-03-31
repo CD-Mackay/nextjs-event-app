@@ -3,7 +3,6 @@ import classes from './eventList.module.css';
 
 function EventList({events}) {
 
-  console.log(classes);
 
   return (
       <ul className={classes.list} >
