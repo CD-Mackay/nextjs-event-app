@@ -36,7 +36,7 @@ function FilteredEventsPage() {
       <Fragment>
         <p>Invalid Filter!</p>
         <div className="center">
-          <Button link="events">Show All Events</Button>
+          <Button link="/events">Show All Events</Button>
         </div>
       </Fragment>
     );
@@ -52,7 +52,7 @@ function FilteredEventsPage() {
       <Fragment>
         <p>No Events Found</p>
         <div className="center">
-          <Button link="events">Show All Events</Button>
+          <Button link="/events">Show All Events</Button>
         </div>
       </Fragment>
     );
