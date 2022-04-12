@@ -4,7 +4,7 @@ import EventsSearch from "../../components/events/eventsSearch";
 import { getAllEvents } from '../../helpers/api-utils';
 
 function EventsPage(props) {
-  const events = { props };
+  const { events } = props;
   const router = useRouter();
 
   function searchHandler(year, month) {
@@ -22,13 +22,12 @@ function EventsPage(props) {
 }
 
 export async function getStaticProps() {
-  const data = await getAllEvents();
-  const events = await data.json();
-
+  const events = await getAllEvents();
   return {
     props: {
       events,
-    }
+    },
+    revalidate: 60
   }
 }
 
