@@ -5,6 +5,7 @@ import ResultsTitle from "../../components/events/results-title";
 import { Fragment, useEffect, useState } from "react";
 import Button from "../../components/ui/button";
 import { getFilteredEvents } from "../../helpers/api-utils";
+import Head from 'next/head';
 import useSWR from "swr";
 
 function FilteredEventsPage(props) {
@@ -71,6 +72,10 @@ function FilteredEventsPage(props) {
 
   return (
     <div>
+      <Head>
+        <title>Filtered Events</title>
+      <meta name="description" content={`all events for ${numMonth} - ${numYear}`} />
+      </Head>
       <ResultsTitle date={date} />
       <EventList events={filteredEvents} />
     </div>

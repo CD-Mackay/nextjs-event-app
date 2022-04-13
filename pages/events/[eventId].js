@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import EventSummary from "../../components/event-details/event-summary";
 import EventLogistics from "../../components/event-details/event-logistics";
 import EventContent from "../../components/event-details/event-content";
+import Head from 'next/head';
 import {
   getAllEvents,
   getEventById,
@@ -14,6 +15,7 @@ function SingleEventPage(props) {
   if (!event) {
     return (
       <div className="center">
+           
         <p>No Event Found</p>
       </div>
     );
@@ -21,6 +23,9 @@ function SingleEventPage(props) {
 
   return (
     <Fragment>
+      <Head>
+        <title>{event.title}</title>
+      </Head>
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}
