@@ -5,7 +5,7 @@ import ResultsTitle from "../../components/events/results-title";
 import { Fragment, useEffect, useState } from "react";
 import Button from "../../components/ui/button";
 import { getFilteredEvents } from "../../helpers/api-utils";
-import Head from 'next/head';
+import Head from "next/head";
 import useSWR from "swr";
 
 function FilteredEventsPage(props) {
@@ -14,7 +14,9 @@ function FilteredEventsPage(props) {
   const [events, setEvents] = useState();
   const filterData = router.query.slug;
 
-  const { data, error } = useSWR("https://nextjs-section5-e6020-default-rtdb.firebaseio.com/events.json");
+  const { data, error } = useSWR(
+    "https://nextjs-section5-e6020-default-rtdb.firebaseio.com/events.json"
+  );
 
   useEffect(() => {
     if (data) {
@@ -28,25 +30,37 @@ function FilteredEventsPage(props) {
       }
       setEvents(finalEvents);
     }
-   }, [data]);
-
-  if (!filterData) {
-    return (
-      <div>
-        <h1>loading...</h1>
-      </div>
-    );
-  }
+  }, [data]);
 
   const year = filterData[0];
   const month = filterData[1];
   const numYear = +year;
   const numMonth = +month;
 
+  const pageHead = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta
+        name="description"
+        content={`all events for ${numMonth} - ${numYear}`}
+      />
+    </Head>
+  );
+
+  if (!filterData) {
+    return (
+      <Fragment>
+        {pageHead}
+        <h1>loading...</h1>
+      </Fragment>
+    );
+  }
+
 
   if (props.hasError) {
     return (
       <Fragment>
+        {pageHead}
         <p>Invalid Filter!</p>
         <div className="center">
           <Button link="/events">Show All Events</Button>
@@ -60,6 +74,7 @@ function FilteredEventsPage(props) {
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
+        {pageHead}
         <p>No Events Found</p>
         <div className="center">
           <Button link="/events">Show All Events</Button>
@@ -72,10 +87,7 @@ function FilteredEventsPage(props) {
 
   return (
     <div>
-      <Head>
-        <title>Filtered Events</title>
-      <meta name="description" content={`all events for ${numMonth} - ${numYear}`} />
-      </Head>
+      {pageHead}
       <ResultsTitle date={date} />
       <EventList events={filteredEvents} />
     </div>
