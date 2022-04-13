@@ -2,31 +2,48 @@ import { useRouter } from "next/router";
 import EventListItem from "../../components/events/eventListItem";
 import EventList from "../../components/events/eventList";
 import ResultsTitle from "../../components/events/results-title";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Button from "../../components/ui/button";
-import { getFilteredEvents } from '../../helpers/api-utils';
+import { getFilteredEvents } from "../../helpers/api-utils";
+import useSWR from "swr";
 
 function FilteredEventsPage(props) {
   const router = useRouter();
 
-  // const filterData = router.query.slug;
+  const [events, setEvents] = useState();
+  const filterData = router.query.slug;
 
-  // if (!filterData) {
-  //   return (
-  //     <div>
-  //       <h1>I am FilteredEventsPage</h1>
-  //     </div>
-  //   );
-  // }
+  const { data, error } = useSWR("https://nextjs-section5-e6020-default-rtdb.firebaseio.com/events.json");
 
-  // const year = filterData[0];
-  // const month = filterData[1];
-  // const numYear = +year;
-  // const numMonth = +month;
+  useEffect(() => {
+    if (data) {
+      const finalEvents = [];
 
-  if (
-    props.hasError
-  ) {
+      for (const key in data) {
+        finalEvents.push({
+          id: key,
+          ...data[key],
+        });
+      }
+    }
+    setEvents(finalEvents);
+   }, [data]);
+
+  if (!filterData || !events) {
+    return (
+      <div>
+        <h1>loading...</h1>
+      </div>
+    );
+  }
+
+  const year = filterData[0];
+  const month = filterData[1];
+  const numYear = +year;
+  const numMonth = +month;
+
+
+  if (props.hasError) {
     return (
       <Fragment>
         <p>Invalid Filter!</p>
@@ -70,7 +87,6 @@ export async function getServerSideProps(context) {
   const numYear = +year;
   const numMonth = +month;
 
-
   if (
     isNaN(numYear) ||
     isNaN(numMonth) ||
@@ -80,13 +96,13 @@ export async function getServerSideProps(context) {
     numMonth > 12
   ) {
     return {
-      props: { hasError: true }
-    }
+      props: { hasError: true },
+    };
   }
 
   const filteredEvents = await getFilteredEvents({
     year: numYear,
-    month: numMonth
+    month: numMonth,
   });
 
   return {
@@ -94,10 +110,10 @@ export async function getServerSideProps(context) {
       events: filteredEvents,
       date: {
         year: numYear,
-        month: numMonth
-      }
-    }
-  }
+        month: numMonth,
+      },
+    },
+  };
 }
 
 export default FilteredEventsPage;
