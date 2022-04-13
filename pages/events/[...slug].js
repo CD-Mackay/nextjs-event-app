@@ -25,11 +25,11 @@ function FilteredEventsPage(props) {
           ...data[key],
         });
       }
+      setEvents(finalEvents);
     }
-    setEvents(finalEvents);
    }, [data]);
 
-  if (!filterData || !events) {
+  if (!filterData) {
     return (
       <div>
         <h1>loading...</h1>
