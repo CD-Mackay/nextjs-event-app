@@ -2,6 +2,7 @@ import DateIcon from "../icons/dateIcon";
 import LocationIcon from "../icons/locationIcon";
 import Button from "../ui/button";
 import classes from "./eventListItem.module.css";
+import Image from 'next/image';
 
 function EventListItem({ event }) {
   const { title, image, date, location, id } = event;
@@ -16,7 +17,7 @@ function EventListItem({ event }) {
 
   return (
     <li className={classes.item}>
-      <img src={"/" + image} alt="image" />
+      <Image src={"/" + image} alt="image" width={250} height={160} />
       <div className={classes.content}>
         <div className={classes.summary}>
           <h2>{title}</h2>
