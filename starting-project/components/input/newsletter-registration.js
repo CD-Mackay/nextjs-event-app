@@ -1,8 +1,13 @@
-import classes from './newsletter-registration.module.css';
+import classes from "./newsletter-registration.module.css";
+import { useRef } from "react";
 
 function NewsletterRegistration() {
+  const emailRef = useRef();
+
   function registrationHandler(event) {
     event.preventDefault();
+    const email = emailRef.current.value;
+    console.log(email);
 
     // fetch user input (state or refs)
     // optional: validate input
@@ -15,10 +20,11 @@ function NewsletterRegistration() {
       <form onSubmit={registrationHandler}>
         <div className={classes.control}>
           <input
-            type='email'
-            id='email'
-            placeholder='Your email'
-            aria-label='Your email'
+            ref={emailRef}
+            type="email"
+            id="email"
+            placeholder="Your email"
+            aria-label="Your email"
           />
           <button>Register</button>
         </div>
